@@ -105,23 +105,35 @@
   </div>
 
   <script>
-    let water = 0;
+    let water = Number(localStorage.getItem("sapphiraWater")) || 0;
     const max = 2500;
 
     function add(amount) {
       water += amount;
-      if (water > max) water = max;
+      localStorage.setItem("sapphiraWater", water);
       update();
     }
 
     function resetDay() {
       water = 0;
+      localStorage.setItem("sapphiraWater", water);
       update();
     }
 
     function update() {
       document.getElementById("progressText").innerText = water + " / " + max + " ml";
-      document.getElementById("fill").style.width = (water / max * 100) + "%";
+      let progressPercent = (water / max) * 100;
+      if (progressPercent > 100) progressPercent = 100;
+      document.getElementById("fill").style.width = progressPercent + "%";
+      document.getElementById("fill").style.transition = "0.3s";
+      let fill = document.getElementById("fill");
+      if (water <1000) {
+        fill.style.background = "#ff6b6b"; //červená
+      } else if (water < 2000) {
+         fill.style.background = "#ffd93d"; //žltá
+      } else {
+         fill.style.background = "#6bcBef"; //modrá
+      }
 
       let text = "";
       let img = "";
