@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sapphira Hydration</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f4ff;
+  margin: 0;
+  padding: 20px;
+}
+
+.app {
+  max-width: 420px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+#bunnyImage {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.bar {
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  margin: 15px 0;
+  overflow: hidden;
+}
+
+#fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, purple, violet);
+}
+
+button {
+  margin: 5px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+}
+
+.resetBtn {
+  margin-top: 10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="app">
+  <h1>💧 Sapphira Hydration Control</h1>
+
+  <img id="bunnyImage" src="https://placehold.co/300x220?text=Sapphira">
+
+  <p id="statusText">Sapphira is watching your hydration choices.</p>
+
+  <div id="progressText">0 / 2500 ml</div>
+
+  <div class="bar">
+    <div id="fill"></div>
+  </div>
+
+  <div class="buttons">
+    <button onclick="add(100)">+100 ml</button>
+    <button onclick="add(200)">+200 ml</button>
+    <button onclick="add(500)">+500 ml</button>
+  </div>
+
+  <button onclick="resetDay()" class="resetBtn">Reset day</button>
+</div>
+
+<script>
+let water = 0;
+const max = 2500;
+
+function add(amount) {
+  water += amount;
+  if (water > max) water = max;
+  update();
+}
+
+function resetDay() {
+  water = 0;
+  update();
+}
+
+function update() {
+  document.getElementById("progressText").innerText = water + " / " + max + " ml";
+  document.getElementById("fill").style.width = (water / max * 100) + "%";
+
+  let text = "";
+  
+  if (water < 500) {
+    text = "Hydratácia: hanba.";
+  } else if (water < 1000) {
+    text = "Tváriš sa, že piješ vodu.";
+  } else if (water < 1500) {
+    text = "Sapphira ťa potichu pozoruje, ale hlasno odsudzuje.";
+  } else if (water < 2000) {
+    text = "Nemysli si, že Sapphira na teba zabudla. Stále ťa sleduje.";
+  } else if (water < 2500) {
+    text = "Sapphira sa upokojila. Nepokaz to.";
+  } else {
+    text = "Splnil si očakávania kráľovnej Sapphiry. Môžeš existovať v pokoji. Dnes.";
+  }
+
+  document.getElementById("statusText").innerText = text;
+}
+</script>
+
+</body>
+</html>
