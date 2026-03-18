@@ -37,6 +37,11 @@
       min-height: 48px;
     }
 
+    #streak {
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    
     #progressText {
       font-size: 20px;
       font-weight: bold;
@@ -89,6 +94,8 @@
 
     <p id="statusText">Hydratácia: hanba. Sapphira kvôli tebe ničí veci.</p>
 
+    <p id="streak">🔥 Streak: 0</p>
+
     <div id="progressText">0 / 2500 ml</div>
 
     <div class="bar">
@@ -108,9 +115,13 @@
     let water = Number(localStorage.getItem("sapphiraWater")) || 0;
     const max = 2500;
 
+    let streak = Number(localStorage.getItem("sapphiraStreak")) || 0;
+    let lastDay = localStorage.getItem("sapphiraLastDay");
+
     function add(amount) {
       water += amount;
       localStorage.setItem("sapphiraWater", water);
+      checkStreak();
       update();
     }
 
@@ -120,8 +131,20 @@
       update();
     }
 
+    function checkStreak() {
+       let today = new Date().toDateString();
+
+       if (water >= 2500 && lastDay !== today) {
+        streak++;
+        localStorage.setItem("sapphiraStreak", streak);
+        localStorage.setItem("sapphiraLastDay", today);
+        lastDay = today;
+       }
+     }
+
     function update() {
       document.getElementById("progressText").innerText = water + " / " + max + " ml";
+      document.getElementById("streak").innerText = "🔥 Streak: " + streak;
       let progressPercent = (water / max) * 100;
       if (progressPercent > 100) progressPercent = 100;
       document.getElementById("fill").style.width = progressPercent + "%";
