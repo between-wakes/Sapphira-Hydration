@@ -1,192 +1,77 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sapphira Hydration</title>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f7f4ff;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .app {
-      max-width: 420px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-
-    #bunnyImage {
-      width: 100%;
-      max-width: 300px;
-      height: 220px;
-      object-fit: cover;
-      border-radius: 15px;
-      margin-bottom: 14px;
-    }
-
-    #statusText {
-      margin-bottom: 14px;
-      min-height: 48px;
-    }
-
-    #streak {
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-    
-    #progressText {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    .bar {
-      height: 20px;
-      background: #ddd;
-      border-radius: 10px;
-      margin: 15px 0;
-      overflow: hidden;
-    }
-
-    #fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(to right, purple, violet);
-      transition: width 0.3s ease;
-    }
-
-    .buttons {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    button {
-      margin: 5px;
-      padding: 10px 14px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .resetBtn {
-      margin-top: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Hydrated with Sapphira</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <div class="app">
-    <h1>💧 Sapphira Hydration Control</h1>
+    <!-- Úvodná obrazovka -->
+    <div id="splashScreen">
+        <img
+            id="splashImage"
+            src="IMG_0851.jpeg"
+            alt="Sapphira">
 
-    <img id="bunnyImage" src="IMG_5819.jpeg" alt="Sapphira">
+        <h1>💧 Get Hydrated</h1>
+        <h2>with Sapphira 🐰</h2>
 
-    <p id="statusText">Hydratácia: hanba. Sapphira kvôli tebe ničí veci.</p>
-
-    <p id="streak">🔥 Streak: 0</p>
-
-    <div id="progressText">0 / 2500 ml</div>
-
-    <div class="bar">
-      <div id="fill"></div>
+        <button id="startButton" type="button">
+            Begin
+        </button>
     </div>
 
-    <div class="buttons">
-      <button onclick="add(100)">+100 ml</button>
-      <button onclick="add(200)">+200 ml</button>
-      <button onclick="add(500)">+500 ml</button>
-    </div>
+    <!-- Hlavná aplikácia -->
+    <main id="app" class="app hidden">
+        <h1>
+            💧 Get Hydrated
+            <br>
+            with Sapphira 🐰
+        </h1>
 
-    <button onclick="resetDay()" class="resetBtn">Reset day</button>
-  </div>
+        <img
+            id="bunnyImage"
+            src="IMG_5819.jpeg"
+            alt="Sapphira">
 
-  <script>
-    let water = Number(localStorage.getItem("sapphiraWater")) || 0;
-    const max = 2500;
+        <p id="statusText" aria-live="polite">
+            Loading...
+        </p>
 
-    let streak = Number(localStorage.getItem("sapphiraStreak")) || 0;
-    let lastDay = localStorage.getItem("sapphiraLastDay");
+        <div id="dateText">--</div>
 
-    function add(amount) {
-      water += amount;
-      localStorage.setItem("sapphiraWater", water);
-      checkStreak();
-      update();
-    }
+        <div id="streak" aria-live="polite">
+            🔥 Streak: 0
+        </div>
 
-    function resetDay() {
-      water = 0;
-      localStorage.setItem("sapphiraWater", water);
-      update();
-    }
+        <div id="progressText" aria-live="polite">
+            0 / 2500 ml
+        </div>
 
-    function checkStreak() {
-       let today = new Date().toDateString();
+        <div
+            class="bar"
+            role="progressbar"
+            aria-label="Denný príjem vody"
+            aria-valuemin="0"
+            aria-valuemax="2500">
 
-       if (water >= 2500 && lastDay !== today) {
-        streak++;
-        localStorage.setItem("sapphiraStreak", streak);
-        localStorage.setItem("sapphiraLastDay", today);
-        lastDay = today;
-       }
-     }
+            <div id="fill"></div>
+        </div>
 
-    function update() {
-      document.getElementById("progressText").innerText = water + " / " + max + " ml";
-      document.getElementById("streak").innerText = "🔥 Streak: " + streak;
-      let progressPercent = (water / max) * 100;
-      if (progressPercent > 100) progressPercent = 100;
-      document.getElementById("fill").style.width = progressPercent + "%";
-      document.getElementById("fill").style.transition = "0.3s";
-      let fill = document.getElementById("fill");
-      if (water <1000) {
-        fill.style.background = "#ff6b6b"; //červená
-      } else if (water < 2000) {
-         fill.style.background = "#ffd93d"; //žltá
-      } else {
-         fill.style.background = "#6bcBef"; //modrá
-      }
+        <div class="buttons">
+            <button id="add100" type="button">+100 ml</button>
+            <button id="add200" type="button">+200 ml</button>
+            <button id="add500" type="button">+500 ml</button>
+        </div>
 
-      let text = "";
-      let img = "";
+        <button id="resetButton" class="resetBtn" type="button">
+            Reset day
+        </button>
+    </main>
 
-      if (water < 500) {
-        text = "Hydratácia: hanba. Sapphira kvôli tebe ničí veci.";
-        img = "IMG_5819.jpeg";
-      } else if (water < 1000) {
-        text = "Tváriš sa, že piješ vodu. Sapphira vie, že klameš.";
-        img = "IMG_5028.jpeg";
-      } else if (water < 1500) {
-        text = "Sapphira ťa potichu pozoruje, ale hlasno odsudzuje.";
-        img = "IMG_5781.jpeg";
-      } else if (water < 2000) {
-        text = "Nemysli si, že Sapphira na teba zabudla. Stále ťa sleduje.";
-        img = "IMG_9260.jpeg";
-      } else if (water < 2500) {
-        text = "Sapphira sa upokojila. Nepokaz to.";
-        img = "IMG_6798.jpeg";
-      } else {
-        text = "Splnil si očakávania kráľovnej Sapphiry. Môžeš existovať v pokoji. Dnes.";
-        img = "IMG_0851.jpeg";
-      }
-
-      document.getElementById("statusText").innerText = text;
-      document.getElementById("bunnyImage").src = img;
-    }
-
-    update();
-  </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
