@@ -1,0 +1,209 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f7f4ff;
+    color: #20202a;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Úvodná obrazovka */
+
+#splashScreen {
+    width: 100%;
+    max-width: 420px;
+    padding: 30px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+}
+
+#splashImage {
+    width: 100%;
+    height: 280px;
+    margin-bottom: 25px;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+#splashScreen h1 {
+    margin-bottom: 5px;
+    font-size: 36px;
+}
+
+#splashScreen h2 {
+    margin-bottom: 30px;
+    color: #666674;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+#startButton {
+    width: 100%;
+    color: #ffffff;
+    background: #6bcbef;
+}
+
+/* Hlavná aplikácia */
+
+.app {
+    width: 100%;
+    max-width: 420px;
+    padding: 24px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+}
+
+.app h1 {
+    margin-bottom: 18px;
+    font-size: 38px;
+    line-height: 1.15;
+}
+
+#bunnyImage {
+    width: 100%;
+    height: 260px;
+    margin-bottom: 18px;
+    object-fit: cover;
+    border-radius: 18px;
+}
+
+#statusText {
+    min-height: 70px;
+    margin-bottom: 18px;
+    font-size: 24px;
+    line-height: 1.35;
+}
+
+#dateText {
+    margin-bottom: 10px;
+    color: #666674;
+    font-size: 18px;
+}
+
+#streak {
+    margin-bottom: 12px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+#progressText {
+    margin-bottom: 18px;
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.bar {
+    width: 100%;
+    height: 24px;
+    margin-bottom: 22px;
+    overflow: hidden;
+    background: #dddddd;
+    border-radius: 30px;
+}
+
+#fill {
+    width: 0;
+    height: 100%;
+    background: #ff6b6b;
+    transition: width 0.35s ease, background 0.35s ease;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+button {
+    min-height: 54px;
+    padding: 14px 10px;
+    border: 0;
+    border-radius: 14px;
+    color: #20202a;
+    background: #ececec;
+    font: inherit;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+button:hover {
+    transform: scale(1.02);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:focus-visible {
+    outline: 3px solid rgba(107, 203, 239, 0.5);
+    outline-offset: 3px;
+}
+
+.resetBtn {
+    width: 100%;
+    color: #5f5f68;
+    background: #f0f0f4;
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+        align-items: flex-start;
+    }
+
+    #splashScreen,
+    .app {
+        margin-top: 8px;
+        padding: 18px;
+    }
+
+    #splashImage {
+        height: 250px;
+    }
+
+    .app h1 {
+        font-size: 30px;
+    }
+
+    #bunnyImage {
+        height: 245px;
+    }
+
+    #progressText {
+        font-size: 28px;
+    }
+
+    #statusText {
+        min-height: 64px;
+        font-size: 21px;
+    }
+
+    button {
+        min-height: 52px;
+        font-size: 17px;
+    }
+}
