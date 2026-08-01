@@ -1,0 +1,434 @@
+name: Build Sapphira APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "index.html"
+      - "style.css"
+      - "script.js"
+      - "IMG_0851.jpeg"
+      - "IMG_5028.jpeg"
+      - "IMG_5781.jpeg"
+      - "IMG_5819.jpeg"
+      - "IMG_6798.jpeg"
+      - "IMG_9260.jpeg"
+      - ".github/workflows/build-apk.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+
+    env:
+      SIGNING_KEY_B64: "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"
+      KEYSTORE_PASSWORD: "SapphiraGift2026!"
+      KEY_ALIAS: "sapphira"
+      KEY_PASSWORD: "SapphiraGift2026!"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platform
+        run: |
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.5.0"
+
+      - name: Create Android project
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p android-build/app/src/main/java/com/betweenwakes/sapphirahydration
+          mkdir -p android-build/app/src/main/res/values
+          mkdir -p android-build/app/src/main/res/drawable
+          mkdir -p android-build/app/src/main/assets
+
+          cp index.html android-build/app/src/main/assets/
+          cp style.css android-build/app/src/main/assets/
+
+          cat > android-build/legacy-polyfills.js <<'EOF'
+          if (!String.prototype.padStart) {
+              String.prototype.padStart = function padStart(targetLength, padString) {
+                  targetLength = targetLength >> 0;
+                  padString = String(padString !== undefined ? padString : " ");
+
+                  if (this.length >= targetLength) {
+                      return String(this);
+                  }
+
+                  targetLength = targetLength - this.length;
+
+                  while (padString.length < targetLength) {
+                      padString += padString;
+                  }
+
+                  return padString.slice(0, targetLength) + String(this);
+              };
+          }
+          EOF
+
+          npx --yes esbuild@0.25.8 script.js               --target=chrome37               --format=iife               --outfile=android-build/script.compat.js
+
+          cat android-build/legacy-polyfills.js               android-build/script.compat.js               > android-build/app/src/main/assets/script.js
+
+          cp IMG_0851.jpeg android-build/app/src/main/assets/
+          cp IMG_5028.jpeg android-build/app/src/main/assets/
+          cp IMG_5781.jpeg android-build/app/src/main/assets/
+          cp IMG_5819.jpeg android-build/app/src/main/assets/
+          cp IMG_6798.jpeg android-build/app/src/main/assets/
+          cp IMG_9260.jpeg android-build/app/src/main/assets/
+
+          cat > android-build/settings.gradle <<'EOF'
+          pluginManagement {
+              repositories {
+                  google()
+                  mavenCentral()
+                  gradlePluginPortal()
+              }
+          }
+
+          dependencyResolutionManagement {
+              repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+              repositories {
+                  google()
+                  mavenCentral()
+              }
+          }
+
+          rootProject.name = "GetHydratedWithSapphira"
+          include(":app")
+          EOF
+
+          cat > android-build/build.gradle <<'EOF'
+          plugins {
+              id "com.android.application" version "9.3.0" apply false
+          }
+          EOF
+
+          cat > android-build/gradle.properties <<'EOF'
+          org.gradle.jvmargs=-Xmx2g -Dfile.encoding=UTF-8
+          android.useAndroidX=false
+          android.nonTransitiveRClass=true
+          EOF
+
+          cat > android-build/app/build.gradle <<'EOF'
+          plugins {
+              id "com.android.application"
+          }
+
+          def buildNumber = System.getenv("GITHUB_RUN_NUMBER") ?: "1"
+
+          android {
+              namespace "com.betweenwakes.sapphirahydration"
+              compileSdk 36
+
+              defaultConfig {
+                  applicationId "com.betweenwakes.sapphirahydration"
+                  minSdk 21
+                  targetSdk 36
+                  versionCode Integer.parseInt(buildNumber)
+                  versionName "1.1." + buildNumber
+              }
+
+              signingConfigs {
+                  release {
+                      storeFile file("../sapphira-release.jks")
+                      storePassword System.getenv("KEYSTORE_PASSWORD")
+                      keyAlias System.getenv("KEY_ALIAS")
+                      keyPassword System.getenv("KEY_PASSWORD")
+                  }
+              }
+
+              buildTypes {
+                  release {
+                      signingConfig signingConfigs.release
+                      minifyEnabled false
+                      shrinkResources false
+                  }
+              }
+
+              compileOptions {
+                  sourceCompatibility JavaVersion.VERSION_17
+                  targetCompatibility JavaVersion.VERSION_17
+              }
+          }
+          EOF
+
+          cat > android-build/app/src/main/AndroidManifest.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+              <application
+                  android:allowBackup="true"
+                  android:hardwareAccelerated="true"
+                  android:icon="@drawable/ic_launcher"
+                  android:label="@string/app_name"
+                  android:roundIcon="@drawable/ic_launcher"
+                  android:supportsRtl="true"
+                  android:theme="@style/AppTheme"
+                  android:usesCleartextTraffic="false">
+
+                  <activity
+                      android:name=".MainActivity"
+                      android:exported="true"
+                      android:screenOrientation="portrait">
+
+                      <intent-filter>
+                          <action android:name="android.intent.action.MAIN" />
+                          <category android:name="android.intent.category.LAUNCHER" />
+                      </intent-filter>
+                  </activity>
+              </application>
+          </manifest>
+          EOF
+
+          cat > android-build/app/src/main/res/values/strings.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <string name="app_name">Get Hydrated with Sapphira</string>
+          </resources>
+          EOF
+
+          cat > android-build/app/src/main/res/values/styles.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <resources>
+              <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+                  <item name="android:fontFamily">sans</item>
+                  <item name="android:windowActionModeOverlay">true</item>
+                  <item name="android:statusBarColor">#F7F4FF</item>
+                  <item name="android:navigationBarColor">#F7F4FF</item>
+                  <item name="android:windowLightStatusBar">true</item>
+              </style>
+          </resources>
+          EOF
+
+          cat > android-build/app/src/main/res/drawable/ic_launcher.xml <<'EOF'
+          <?xml version="1.0" encoding="utf-8"?>
+          <vector xmlns:android="http://schemas.android.com/apk/res/android"
+              android:width="108dp"
+              android:height="108dp"
+              android:viewportWidth="108"
+              android:viewportHeight="108">
+
+              <path
+                  android:fillColor="#6BCBEF"
+                  android:pathData="M0,0h108v108h-108z" />
+
+              <path
+                  android:fillColor="#FFFFFF"
+                  android:pathData="M54,16C54,16 29,46 29,65C29,79 40,91 54,91C68,91 79,79 79,65C79,46 54,16 54,16z" />
+
+              <path
+                  android:fillColor="#DFF6FF"
+                  android:pathData="M43,57C43,49 48,40 54,32C49,49 49,66 57,78C49,77 43,69 43,57z" />
+          </vector>
+          EOF
+
+          cat > android-build/app/src/main/java/com/betweenwakes/sapphirahydration/MainActivity.java <<'EOF'
+          package com.betweenwakes.sapphirahydration;
+
+          import android.annotation.SuppressLint;
+          import android.app.Activity;
+          import android.graphics.Color;
+          import android.net.Uri;
+          import android.os.Build;
+          import android.os.Bundle;
+          import android.webkit.WebChromeClient;
+          import android.webkit.WebResourceRequest;
+          import android.webkit.WebResourceResponse;
+          import android.webkit.WebSettings;
+          import android.webkit.WebView;
+          import android.webkit.WebViewClient;
+
+          import java.io.IOException;
+          import java.io.InputStream;
+          import java.util.Locale;
+
+          public class MainActivity extends Activity {
+              private static final String APP_HOST = "app.local";
+              private WebView webView;
+
+              @SuppressLint("SetJavaScriptEnabled")
+              @Override
+              protected void onCreate(Bundle savedInstanceState) {
+                  super.onCreate(savedInstanceState);
+
+                  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                      getWindow().setStatusBarColor(Color.rgb(247, 244, 255));
+                      getWindow().setNavigationBarColor(Color.rgb(247, 244, 255));
+                  }
+
+                  webView = new WebView(this);
+                  webView.setBackgroundColor(Color.rgb(247, 244, 255));
+                  webView.setVerticalScrollBarEnabled(false);
+                  webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+
+                  WebSettings settings = webView.getSettings();
+                  settings.setJavaScriptEnabled(true);
+                  settings.setDomStorageEnabled(true);
+                  settings.setDatabaseEnabled(true);
+                  settings.setAllowFileAccess(false);
+                  settings.setAllowContentAccess(false);
+                  settings.setSupportZoom(false);
+                  settings.setBuiltInZoomControls(false);
+                  settings.setDisplayZoomControls(false);
+                  settings.setJavaScriptCanOpenWindowsAutomatically(false);
+                  settings.setDefaultTextEncodingName("UTF-8");
+
+                  webView.setWebChromeClient(new WebChromeClient());
+                  webView.setWebViewClient(new LocalAssetsWebViewClient());
+
+                  setContentView(webView);
+                  webView.loadUrl("https://" + APP_HOST + "/index.html");
+              }
+
+              @Override
+              public void onBackPressed() {
+                  if (webView != null && webView.canGoBack()) {
+                      webView.goBack();
+                  } else {
+                      super.onBackPressed();
+                  }
+              }
+
+              @Override
+              protected void onDestroy() {
+                  if (webView != null) {
+                      webView.loadUrl("about:blank");
+                      webView.stopLoading();
+                      webView.setWebChromeClient(null);
+                      webView.setWebViewClient(null);
+                      webView.destroy();
+                      webView = null;
+                  }
+
+                  super.onDestroy();
+              }
+
+              private final class LocalAssetsWebViewClient extends WebViewClient {
+                  @Override
+                  public WebResourceResponse shouldInterceptRequest(
+                          WebView view,
+                          WebResourceRequest request
+                  ) {
+                      Uri uri = request.getUrl();
+
+                      if (!APP_HOST.equals(uri.getHost())) {
+                          return super.shouldInterceptRequest(view, request);
+                      }
+
+                      String path = uri.getPath();
+
+                      if (path == null || "/".equals(path)) {
+                          path = "/index.html";
+                      }
+
+                      if (path.contains("..")) {
+                          return null;
+                      }
+
+                      String assetPath = path.startsWith("/")
+                              ? path.substring(1)
+                              : path;
+
+                      try {
+                          InputStream input = getAssets().open(assetPath);
+                          String mimeType = getMimeType(assetPath);
+                          String encoding = isTextMimeType(mimeType) ? "UTF-8" : null;
+
+                          return new WebResourceResponse(mimeType, encoding, input);
+                      } catch (IOException error) {
+                          return null;
+                      }
+                  }
+
+                  @Override
+                  public boolean shouldOverrideUrlLoading(
+                          WebView view,
+                          WebResourceRequest request
+                  ) {
+                      Uri uri = request.getUrl();
+                      return !APP_HOST.equals(uri.getHost());
+                  }
+              }
+
+              private static boolean isTextMimeType(String mimeType) {
+                  return mimeType.startsWith("text/")
+                          || "application/javascript".equals(mimeType)
+                          || "application/json".equals(mimeType);
+              }
+
+              private static String getMimeType(String path) {
+                  String lower = path.toLowerCase(Locale.ROOT);
+
+                  if (lower.endsWith(".html")) {
+                      return "text/html";
+                  }
+
+                  if (lower.endsWith(".css")) {
+                      return "text/css";
+                  }
+
+                  if (lower.endsWith(".js")) {
+                      return "application/javascript";
+                  }
+
+                  if (lower.endsWith(".jpeg") || lower.endsWith(".jpg")) {
+                      return "image/jpeg";
+                  }
+
+                  if (lower.endsWith(".png")) {
+                      return "image/png";
+                  }
+
+                  if (lower.endsWith(".svg")) {
+                      return "image/svg+xml";
+                  }
+
+                  return "application/octet-stream";
+              }
+          }
+          EOF
+
+          echo "$SIGNING_KEY_B64" | base64 --decode > android-build/sapphira-release.jks
+
+      - name: Build signed release APK
+        working-directory: android-build
+        run: gradle --no-daemon :app:assembleRelease
+
+      - name: Rename APK
+        run: |
+          cp android-build/app/build/outputs/apk/release/app-release.apk              Get-Hydrated-with-Sapphira.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Get-Hydrated-with-Sapphira-APK
+          path: Get-Hydrated-with-Sapphira.apk
+          if-no-files-found: error
+          retention-days: 90
